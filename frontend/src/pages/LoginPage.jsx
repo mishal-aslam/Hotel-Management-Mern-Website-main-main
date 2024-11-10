@@ -12,7 +12,7 @@ const LoginPage = () => {
 
   // Handle login form submission
   async function login(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); 
 
     if (!email || !password) {
       setError("Please enter both email and password.");
@@ -31,18 +31,30 @@ const LoginPage = () => {
 
       // Check if login is successful
       if (response.data && response.data.message === "Login successful") {
-        navigate("/");
-        console.log(data)
-      } else {
+
+        // Store user data in localStorage
+        localStorage.setItem("user", JSON.stringify(response.data.customer.customerName)); 
+
+        // localStorage.setItem("token", response.data.token); 
+        // console.log("Token stored:", response.data.token);
+
+
+        console.log(response.data)
+
+        navigate("/"); 
+      }
+       else {
         setError("Invalid email or password.");
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Login failed:", error);
       setError("Server error. Please try again later.");
-    } finally {
+    }
+    finally {
       setLoading(false); 
     }
-  }
+  }  
 
   return (
     <div className="bg-[#232323] flex py-16 items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -90,24 +102,6 @@ const LoginPage = () => {
 
             {/* Show error message */}
             {error && <p className="text-red-600 text-sm">{error}</p>}
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-white/80">
-                  Remember me
-                </label>
-              </div>
-
-              <Link to="/forgot-password" className="text-sm font-medium text-red-600 hover:text-red-500">
-                Forgot password?
-              </Link>
-            </div>
 
             <div className="flex w-full justify-center py-2 px-4 text-sm shadow-sm hover:bg-opacity-75">
               <Button2 text={loading ? "Logging in..." : "Log in"} onClick={login} />

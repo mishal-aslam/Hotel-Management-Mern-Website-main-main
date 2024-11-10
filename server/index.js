@@ -121,11 +121,12 @@ app.post('/login', async (req, res) => {
         // If login is successful, return customer data
         res.json({
             message: 'Login successful',
-            customer: {
-                customerName: customer.customerName,
-                email: customer.email,
-                contactNumber: customer.contactNumber,
-            },
+            // customer: {
+            //     customerName: customer.customerName,
+            //     email: customer.email,
+            //     contactNumber: customer.contactNumber,
+            // },
+            customer
         });
 
     } catch (error) {
